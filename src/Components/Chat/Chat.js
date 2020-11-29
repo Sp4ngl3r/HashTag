@@ -8,7 +8,10 @@ import {
 } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import firebase from "firebase";
 import db from "../../firebase";
+import { useStateValue } from "../../StateProvider";
+
 import "./Chat.css";
 
 function Chat() {
@@ -16,12 +19,23 @@ function Chat() {
   const [input, setInput] = useState("");
   const { channelId } = useParams();
   const [channelName, setChannelName] = useState("");
+  const [messages, setMessages] = useState([]);
+  // eslint-disable-next-line
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     if (channelId) {
       db.collection("channels")
         .doc(channelId)
         .onSnapshot((snapshot) => setChannelName(snapshot.data().name));
+
+      db.collection("channels")
+        .doc(channelId)
+        .collection("messages")
+        .orderBy("time", "asc")
+        .onSnapshot((snapshot) => {
+          setMessages(snapshot.docs.map((doc) => doc.data()));
+        });
     }
   }, [channelId]);
 
@@ -32,6 +46,13 @@ function Chat() {
   const sendMessage = (e) => {
     e.preventDefault();
     console.log("Message:", input);
+
+    db.collection("channels").doc(channelId).collection("messages").add({
+      message: input,
+      name: user.displayName,
+      time: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
     setInput("");
   };
 
@@ -42,7 +63,12 @@ function Chat() {
 
         <div className="chat__headerInfo">
           <h3>{channelName}</h3>
-          <p>Recent activity at ....</p>
+          <p>
+            last message at{" "}
+            {new Date(
+              messages[messages.length - 1]?.time?.toDate()
+            ).toUTCString()}
+          </p>
         </div>
 
         <div className="chat__headerRight">
@@ -59,13 +85,19 @@ function Chat() {
       </div>
 
       <div className="chat__body">
-        <p className={`chat__message ${true && "chat__reciever"}`}>
-          <span className="chat__name">XYZ</span>
-          Holla Amigos
-          <span className="chat__timestamp">3:52pm</span>
-        </p>
-        <p className="chat__message chat__reciever">This is Second Chat</p>
-        <p className="chat__message">X)</p>
+        {messages.map((message) => (
+          <p
+            className={`chat__message ${
+              message.name === user.displayName && "chat__reciever"
+            }`}
+          >
+            <span className="chat__name">{message.name}</span>
+            {message.message}
+            <span className="chat__timestamp">
+              {new Date(message.time?.toDate()).toUTCString()}
+            </span>
+          </p>
+        ))}
       </div>
 
       <div className="chat__footer">

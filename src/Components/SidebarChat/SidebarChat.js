@@ -6,6 +6,19 @@ import "./SidebarChat.css";
 
 function SidebarChat({ id, name, addNewChat }) {
   const [urlVar, setUrlVar] = useState("");
+  const [messages, setMessages] = useState("");
+
+  useEffect(() => {
+    if (id) {
+      db.collection("channels")
+        .doc(id)
+        .collection("messages")
+        .orderBy("time", "desc")
+        .onSnapshot((snapshot) =>
+          setMessages(snapshot.docs.map((doc) => doc.data()))
+        );
+    }
+  }, [id]);
 
   useEffect(() => {
     setUrlVar(Math.floor(Math.random() * 20000));
@@ -27,7 +40,7 @@ function SidebarChat({ id, name, addNewChat }) {
         <Avatar src={`https://avatars.dicebear.com/api/human/${urlVar}.svg`} />
         <div className="sidebarChat__info">
           <h2>{name}</h2>
-          <p>Last Message...</p>
+          <p>{messages[0]?.message}</p>
         </div>
       </div>
     </Link>

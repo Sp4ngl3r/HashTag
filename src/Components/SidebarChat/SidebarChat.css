@@ -5,6 +5,11 @@
     border-bottom: 2px solid #a1a8b3;
 }
 
+a {
+    text-decoration: none !important;
+    color: black;
+}
+
 .sidebarChat:hover {
     background-color: #d6e7bb;
 }

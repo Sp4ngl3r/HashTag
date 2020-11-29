@@ -2,11 +2,13 @@ import "./App.css";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Chat from "./Components/Chat/Chat";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useState } from "react";
+//import { useState } from "react";
 import Login from "./Components/Login/Login";
+import { useStateValue } from "./StateProvider";
 
 function App() {
-  const [user, setUSer] = useState(null);
+  //eslint-disable-next-line
+  const [{ user }, dispatch] = useStateValue();
 
   return (
     //This is BEM naming convention
