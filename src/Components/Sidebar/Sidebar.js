@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+// eslint-disable-next-line
 import { Avatar, IconButton } from "@material-ui/core";
+// eslint-disable-next-line
 import { DonutLarge, MoreVert, Search, SmsRounded } from "@material-ui/icons";
 
 import db from "../../firebase";
@@ -30,9 +32,14 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar src={user?.photoURL} />
+        <Avatar
+          src={user?.photoURL}
+          style={{ height: "100px", width: "100px" }}
+        />
         <div className="sidebar__headerRight">
-          <IconButton>
+          <h4>HashTagger </h4>
+          <h2>{user.displayName}</h2>
+          {/* <IconButton>
             <DonutLarge />
           </IconButton>
           <IconButton>
@@ -40,16 +47,16 @@ function Sidebar() {
           </IconButton>
           <IconButton>
             <MoreVert />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
 
-      <div className="sidebar__search">
+      {/* <div className="sidebar__search">
         <div className="sidebar__searchContainer">
           <Search />
           <input placeholder="Seeking something?" type="text" />
         </div>
-      </div>
+      </div> */}
 
       <div className="sidebar__chats">
         <SidebarChat addNewChat />

@@ -1,6 +1,7 @@
 import { Avatar } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+// import { emojify } from "react-emojione";
 import db from "../../firebase";
 import "./SidebarChat.css";
 

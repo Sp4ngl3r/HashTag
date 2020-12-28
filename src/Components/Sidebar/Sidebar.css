@@ -34,8 +34,8 @@
 
 .sidebar__header {
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
+    justify-content: center;
+    padding:30px;
     background-color: #10ffb7;
     /* border-right: 1px solid #a242ce; */
 }
@@ -43,8 +43,13 @@
 .sidebar__headerRight {
     display: flex;
     align-items: center;
+    padding-left: 15px;
     justify-content: space-between;
-    min-width: 10vw;
+    min-width: 5vw;
+}
+
+.sidebar__headerRight > h2 {
+    padding-left: 15px;
 }
 
 .sidebar__headerRight > .MuiSvgIcon-root {

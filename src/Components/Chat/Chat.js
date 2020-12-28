@@ -1,12 +1,22 @@
+// eslint-disable-next-line
 import { Avatar, IconButton } from "@material-ui/core";
 import {
+  // eslint-disable-next-line
   AttachFile,
+  // eslint-disable-next-line
   InsertEmoticon,
+  // eslint-disable-next-line
   Mic,
+  // eslint-disable-next-line
   MoreVert,
+  // eslint-disable-next-line
   Search,
 } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
+// import ScrollToBottom from "react-scroll-to-bottom";
+// import ReactEmoji from "react-emoji";
+// import ScrollableFeed from "react-scrollable-feed";
+import { emojify } from "react-emojione";
 import { useParams } from "react-router-dom";
 import firebase from "firebase";
 import db from "../../firebase";
@@ -47,11 +57,13 @@ function Chat() {
     e.preventDefault();
     console.log("Message:", input);
 
-    db.collection("channels").doc(channelId).collection("messages").add({
-      message: input,
-      name: user.displayName,
-      time: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    if (input !== "") {
+      db.collection("channels").doc(channelId).collection("messages").add({
+        message: input,
+        name: user.displayName,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    }
 
     setInput("");
   };
@@ -72,7 +84,7 @@ function Chat() {
         </div>
 
         <div className="chat__headerRight">
-          <IconButton>
+          {/* <IconButton>
             <Search />
           </IconButton>
           <IconButton>
@@ -80,7 +92,7 @@ function Chat() {
           </IconButton>
           <IconButton>
             <MoreVert />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
 
@@ -92,7 +104,7 @@ function Chat() {
             }`}
           >
             <span className="chat__name">{message.name}</span>
-            {message.message}
+            {emojify(message.message)}
             <span className="chat__timestamp">
               {new Date(message.time?.toDate()).toUTCString()}
             </span>
@@ -101,8 +113,8 @@ function Chat() {
       </div>
 
       <div className="chat__footer">
-        <InsertEmoticon />
-        <Mic />
+        {/* <InsertEmoticon />
+        <Mic /> */}
         <form>
           <input
             value={input}

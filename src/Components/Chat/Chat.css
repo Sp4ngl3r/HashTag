@@ -66,11 +66,12 @@
     background-repeat: repeat;
     background-position: center;
     padding: 30px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .chat__footer {
     display: flex;
+    padding: 20px;
     justify-content: space-between;
     align-items: center;
     height: 50px;
